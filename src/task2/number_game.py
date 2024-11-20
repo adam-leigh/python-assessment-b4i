@@ -10,12 +10,11 @@ class GameOverError(Exception):
     """Exception raised when the game is over."""
     pass
 
-@dataclass
+@dataclass(frozen=True)
 class GameConfig:
     difficulty: str
     number_pool: Tuple[int, int]
     max_tries: int
-    target_number: int = None # We'll initialize this once our class is instantiated.
 
 class NumberGuessingGame:
 
