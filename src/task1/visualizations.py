@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
 from task1.grades_analyzer import Analyzer, Loader
-
-import matplotlib.pyplot as plt
 
 
 class Visualizer:
@@ -53,8 +52,8 @@ if __name__ == "__main__":
     visualizer = Visualizer(subject_stats)
 
     visualizer.plot(
-        x_column="subject",         # The x-axis will show the subject names
-        y_column="average_grade",   # The y-axis will show the average grades
+        x_column="subject",
+        y_column="average_grade",
         title="Average Grade Per Subject",
         xlabel="Subject",
         ylabel="Average Grade"
