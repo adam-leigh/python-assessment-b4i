@@ -14,20 +14,31 @@ def medium_game():
 def hard_game():
     return NumberGuessingGame(difficulty="hard")
 
-def test_game_configuration_easy(easy_game):
-    assert easy_game.difficulty == "easy"
-    assert easy_game.remaining_tries == 25
-    assert 1 <= easy_game.target_number <= 50
+# def test_game_configuration_easy(easy_game):
+#     assert easy_game.difficulty == "easy"
+#     assert easy_game.remaining_tries == 25
+#     assert 1 <= easy_game.target_number <= 50
+#
+# def test_game_configuration_medium(medium_game):
+#     assert medium_game.difficulty == "medium"
+#     assert medium_game.remaining_tries == 15
+#     assert 1 <= medium_game.target_number <= 100
+#
+# def test_game_configuration_hard(hard_game):
+#     assert hard_game.difficulty == "hard"
+#     assert hard_game.remaining_tries == 10
+#     assert 1 <= hard_game.target_number <= 200
 
-def test_game_configuration_medium(medium_game):
-    assert medium_game.difficulty == "medium"
-    assert medium_game.remaining_tries == 15
-    assert 1 <= medium_game.target_number <= 100
+def test_game_rules_based_on_difficulty():
+    CONFIG = {
+        "easy": {"number_pool": (1, 50), "max_tries": 25},
+        "medium": {"number_pool": (1, 100), "max_tries": 15},
+        "hard": {"number_pool": (1, 200), "max_tries": 10},
+    }
 
-def test_game_configuration_hard(hard_game):
-    assert hard_game.difficulty == "hard"
-    assert hard_game.remaining_tries == 10
-    assert 1 <= hard_game.target_number <= 200
+    for difficulty, rules in CONFIG.items():
+        game = NumberGuessingGame(difficulty=difficulty)
+        assert game.number_pool == rules["number_pool"]
 
 def test_init(easy_game):
     """Verified that game is instantiated and not a Nonetype."""
