@@ -73,10 +73,6 @@ def sample_data():
         {"student_id": 1004, "subject": "Physics", "grade": 67},
     ])
 
-def test_analyzer_calculates_passing_rate(sample_data):
-    analyzer = Analyzer(sample_data)
-    assert analyzer.passing_rate() == 100 # it just so happens our sample returned students that all passed.
-
 def test_analyzer_can_sort_dataframe(sample_data):
     analyzer = Analyzer(sample_data)
     sorted_df = analyzer.sort_by_column("grade")
@@ -91,3 +87,4 @@ def test_analyzer_calculates_grade_statistics(sample_data):
     assert stats["lowest_grade"] == 67
     assert stats["average_grade"] == round(expected_average, 2)
     assert stats["students_passed"] == 5 # All students passed in our sample
+    assert stats["passing_rate"] == 100
