@@ -21,8 +21,6 @@ class Loader:
             data = json.load(file)
             return pd.DataFrame(data["grades"])
 
-import pandas as pd
-
 
 class Analyzer:
     def __init__(self, data: pd.DataFrame) -> None:
