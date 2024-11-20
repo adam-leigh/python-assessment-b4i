@@ -16,8 +16,7 @@ class GameConfig:
     number_pool: Tuple[int, int]
     max_tries: int
 
-class NumberGuessingGame:
-
+class GameConfigFactory:
     _CONFIG = {
             "easy": {
                 "number_pool": (1, 50), 
@@ -32,6 +31,21 @@ class NumberGuessingGame:
                 "max_tries": 10
                 },
             }
+
+    @classmethod
+    def create_config(cls, difficulty: str) -> GameConfig:
+        if difficulty not in cls._CONFIG:
+            raise ValueError("Difficulty must be 'easy', 'medium' or 'hard'.")
+        config = cls._CONFIG[difficulty]
+        return GameConfig(
+                difficulty=difficulty,
+                number_pool=config["number_pool"],
+                max_tries=config["max_tries"]
+                )
+
+
+class NumberGuessingGame:
+
 
     def __init__(self, difficulty: str) -> None:
         self.difficulty = difficulty
