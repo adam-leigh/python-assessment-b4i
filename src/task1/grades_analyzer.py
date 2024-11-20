@@ -26,10 +26,9 @@ class Analyzer:
     def __init__(self, data: pd.DataFrame) -> None:
         self.data = data
 
-    def passing_rate(self, pass_mark=60):
-        passing_students = self.data[self.data["grade"] >= pass_mark]
-        percentage = (len(passing_students) / len(self.data)) * 100
-        return round(percentage, 2)
+    def _get_passing_students(self, pass_mark=60):
+        """Helper method to get passing students."""
+        return self.data[self.data["grade"] >= pass_mark]
 
     def sort_by_column(self, column_name: str, ascending=True):
         """Sort the DataFrame by a specific column."""
@@ -37,17 +36,31 @@ class Analyzer:
             raise ValueError(f"Column {column_name} does not exist.")
         return self.data.sort_values(by=column_name, ascending=ascending)
 
-    def grade_statistics(self) -> dict[str, float]:
-        """Calculates the highest, lowest and average grades from the DataFrame."""
+    def grade_statistics(self, pass_mark=60) -> dict[str, float]:
+        """Calculate highest, lowest, average grades, number of students passed, and passing rate."""
+        passing_students = self._get_passing_students(pass_mark)
         return {
-                "highest_grade": self.data["grade"].max(),
-                "lowest_grade": self.data["grade"].min(),
-                "average_grade": round(self.data["grade"].mean(), 2)
-                }
+            "highest_grade": self.data["grade"].max(),
+            "lowest_grade": self.data["grade"].min(),
+            "average_grade": round(self.data["grade"].mean(), 2),
+            "students_passed": len(passing_students),
+            "passing_rate": round((len(passing_students) / len(self.data)) * 100, 2),
+        }
+
 
 if __name__ == "__main__":
-    # df = Loader().load_data("./data/grades.json")
+    df = Loader().load_data("./data/grades.json")
     # df = Loader().load_data("./data/grades.csv")
     # df = Loader().load_data("./data/grades.xlsx")
-    # print(df.head())
-    pass
+    analyzer = Analyzer(df)
+    stats = analyzer.grade_statistics()
+    print("\n📊\n")
+    print("Analysis:")
+    print(f"- {stats['students_passed']} out of {len(df)} students passed.")
+    print(f"- The lowest score was {stats['lowest_grade']}.")
+    print(f"- The highest score was {stats['highest_grade']}.")
+    print(f"- The average score was {stats['average_grade']}.")
+    print(f"- The pass rate of this group of students is {stats['passing_rate']}%")
+    # print("DataFrame sorted by grade:")
+    # print(analyzer.sort_by_column("grade"))
+
