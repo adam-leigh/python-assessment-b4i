@@ -90,3 +90,4 @@ def test_analyzer_calculates_grade_statistics(sample_data):
     assert stats["highest_grade"] == 92
     assert stats["lowest_grade"] == 67
     assert stats["average_grade"] == round(expected_average, 2)
+    assert stats["students_passed"] == 5 # All students passed in our sample
