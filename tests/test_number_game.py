@@ -27,3 +27,22 @@ def test_instantiation_with_difficulty_parameter():
 def test_make_guess(game):
     game.make_guess(42)
     assert game.user_guess == 42
+
+def test_difficulty_getter_and_setter():
+    game = NumberGuessingGame(difficulty="easy")
+    assert game.difficulty == "easy"
+
+    game.difficulty = "medium" # Here's where we're testing our setter
+    assert game.difficulty == "medium"
+
+    with pytest.raises(ValueError):
+        game.difficulty = "sadkljhsfksjh"
+
+
+def test_guess_getter_and_setter():
+    game = NumberGuessingGame(difficulty="easy")
+    game.user_guess = 50 # Testing the setter here.
+    assert game.user_guess == 50 # Testing the getter.
+
+    with pytest.raises(ValueError):
+        game.user_guess = "Not a number."
