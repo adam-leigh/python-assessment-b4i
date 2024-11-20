@@ -1,6 +1,5 @@
 import pytest
 import pandas as pd
-from task1.grades_analyzer import Loader
 
 @pytest.fixture
 def csv_file():
@@ -13,6 +12,10 @@ def json_file():
 @pytest.fixture
 def excel_file():
     return "data/grades.xlsx"
+
+
+# Grades Loader
+from task1.grades_analyzer import Loader
 
 def test_loader_can_load_csv(csv_file):
     loader = Loader()
@@ -31,4 +34,46 @@ def test_loader_can_load_excel(excel_file):
     data = loader.load_data(excel_file)
     assert isinstance(data, pd.DataFrame)
     assert list(data.columns) == ["student_id", "subject", "grade"]
+
+# Grades Analyzer
+from task1.grades_analyzer import Analyzer
+
+""" Sample data I extracted from the dataframe:
+[{
+    'student_id': 1001,
+    'subject': 'Math',
+    'grade': 85
+}, {
+    'student_id': 1003,
+    'subject': 'Biology',
+    'grade': 85
+}, {
+    'student_id': 1001,
+    'subject': 'Biology',
+    'grade': 88
+}, {
+    'student_id': 1002,
+    'subject': 'Math',
+    'grade': 92
+}, {
+    'student_id': 1004,
+    'subject': 'Physics',
+    'grade': 67
+}]
+"""
+
+@pytest.fixture
+def sample_data():
+    """Fixture to provide dummy DataFrame for testing."""
+    return pd.DataFrame([
+        {"student_id": 1001, "subject": "Math", "grade": 85},
+        {"student_id": 1003, "subject": "Biology", "grade": 85},
+        {"student_id": 1001, "subject": "Biology", "grade": 88},
+        {"student_id": 1002, "subject": "Math", "grade": 92},
+        {"student_id": 1004, "subject": "Physics", "grade": 67},
+    ])
+
+def test_analyzer_calculates_passing_rate(sample_data):
+    analyzer = Analzyer(sample_data)
+    assert analyzer.passing_rate() == 100 # it just so happens our sample returned students that all passed.
 
