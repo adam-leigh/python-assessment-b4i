@@ -21,3 +21,9 @@ class Loader:
             data = json.load(file)
             return pd.DataFrame(data["grades"])
 
+
+if __name__ == "__main__":
+    # df = Loader().load_data("./data/grades.json")
+    # df = Loader().load_data("./data/grades.csv")
+    # df = Loader().load_data("./data/grades.xlsx")
+    # print(df.head())
