@@ -1,6 +1,6 @@
+
 def palindrome_checker(input_string: str) -> bool:
     """Expects a string as input, then evaluates whether or not that string is a palindrome."""
-
     if not (isinstance(input_string, str) and input_string.isalpha()):
         raise ValueError("Input must be a string containing only alphabetic characters")
     uniform_string: str = input_string.lower()
