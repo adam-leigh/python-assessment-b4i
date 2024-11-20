@@ -14,6 +14,20 @@ def medium_game():
 def hard_game():
     return NumberGuessingGame(difficulty="hard")
 
+def test_game_configuration_easy(easy_game):
+    assert easy_game.difficulty == "easy"
+    assert easy_game.remaining_tries == 25
+    assert 1 <= easy_game.target_number <= 50
+
+def test_game_configuration_medium(medium_game):
+    assert medium_game.difficulty == "medium"
+    assert medium_game.remaining_tries == 15
+    assert 1 <= medium_game.target_number <= 100
+
+def test_game_configuration_hard(hard_game):
+    assert hard_game.difficulty == "hard"
+    assert hard_game.remaining_tries == 10
+    assert 1 <= hard_game.target_number <= 200
 
 def test_init(easy_game):
     """Verified that game is instantiated and not a Nonetype."""
@@ -26,7 +40,7 @@ def test_instantiation_with_difficulty_parameter():
         game = NumberGuessingGame(difficulty=difficulty)
         assert game.difficulty == difficulty
 
-    INVALID_OPTIONS: list[Any] = ["very easy", 123, None, "", [], {}, True]
+    INVALID_OPTIONS: list[Any] = ["extreme", 123, None, "", [], {}, True]
 
     for invalid in INVALID_OPTIONS:
         with pytest.raises(ValueError):
