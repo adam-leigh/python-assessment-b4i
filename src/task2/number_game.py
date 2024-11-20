@@ -45,11 +45,17 @@ class GameConfigFactory:
 
 
 class NumberGuessingGame:
-
-
-    def __init__(self, difficulty: str) -> None:
+    def __init__(
+            self, 
+            difficulty: str, 
+            config_factory: GameConfigFactory = GameConfigFactory
+            ) -> None:
+        self._difficulty = None
         self.difficulty = difficulty
+        self._config_factory = config_factory
         self.game_config = self._setup_game_rules()
+        self._target_number = self._generate_target_number()
+        self._remaining_tries = self.game_config.max_tries
         
     @property
     def difficulty(self) -> str:
@@ -64,13 +70,7 @@ class NumberGuessingGame:
 
     def _setup_game_rules(self) -> GameConfig:
         """Configures the game settings / rules based on the difficulty selected."""
-        rules = self._CONFIG[self._difficulty]
-        return GameConfig(
-                difficulty=self.difficulty,
-                number_pool=rules["number_pool"],
-                max_tries=rules["max_tries"],
-                target_number=self._generate_target_number(rules["number_pool"]),
-                )
+        return self._config_factory.create_config(self._difficulty)
 
     def _generate_target_number(self, number_pool: Tuple[int, int]) -> int:
         """Generates a random number within the pool range."""
@@ -83,27 +83,36 @@ class NumberGuessingGame:
         decrements the number of tries, and provides hints or triggers game-over.
         """
         if not isinstance(number, int):
-            raise ValueError("Guess must be an integer.")
+            raise InvalidGuessError("Guess must be an integer.")
 
         if number < self.game_config.number_pool[0] or number > self.game_config.number_pool[1]:
-            raise ValueError(
+            raise InvalidGuessError(
                 f"Guess must be between {self.game_config.number_pool[0]} and {self.game_config.number_pool[1]}."
             )
 
         if self.game_config.max_tries <= 0:
-            raise RuntimeError("Game Over!")
+            raise GameOverError("Game Over!")
 
-        self.game_config.max_tries -= 1
+        self._remaining_tries -= 1
 
-        if self.game_config.max_tries == 0 and number != self.game_config.target_number:
-            raise RuntimeError("Game Over!")
+        if self._remaining_tries == 0 and number != self._target_number:
+            raise GameOverError("Game Over!")
 
-        if number == self.game_config.target_number:
+        if number == self._target_number:
             return "Correct!"
-        elif number < self.game_config.target_number:
+        elif number < self._target_number:
             return "Higher"
         else:
             return "Lower"
+
+    @property
+    def remaining_tries(self) -> int:
+        return self._remaining_tries
+
+    @property
+    def target_number(self) -> int | None:
+        """Expose the target_number for testing purposes."""
+        return self._target_number
 
 
 def get_valid_difficulty() -> str:
