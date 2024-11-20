@@ -7,7 +7,7 @@ class GameConfig:
     difficulty: str
     number_pool: Tuple[int, int]
     max_tries: int
-    target_number: int = None # initialized once our game class is instantiated.
+    target_number: int = None # We'll initialize this once our class is instantiated.
 
 class NumberGuessingGame:
 
@@ -84,6 +84,7 @@ class NumberGuessingGame:
         else:
             return "Lower"
 
+
 def get_valid_difficulty() -> str:
     while True:
         difficulty = input("Choose difficulty (easy, medium, hard): ").lower()
@@ -92,37 +93,38 @@ def get_valid_difficulty() -> str:
         else:
             print("Invalid difficulty. Please choose 'easy', 'medium', or 'hard'.")
 
-if __name__ == "__main__":
 
-    def play_game():
-        difficulty: str = get_valid_difficulty()
-        game = NumberGuessingGame(difficulty=difficulty)
-        print(f"Game started! Guess a number between {game.game_config.number_pool[0]} and {game.game_config.number_pool[1]}.")
-        print(f"You have {game.game_config.max_tries} attempts.")
+def play_game():
+    difficulty = get_valid_difficulty()
+    game = NumberGuessingGame(difficulty=difficulty)
+    print(f"Game started! Guess a number between {game.game_config.number_pool[0]} and {game.game_config.number_pool[1]}.")
+    print(f"You have {game.game_config.max_tries} attempts.")
 
-        while True:
-            try:
-                guess_input = input("Enter your guess: ")
-                guess = int(guess_input)
-                hint = game.make_guess(guess)
-                print(hint)
-                print(f"Remaining attempts: {game.game_config.max_tries}")  # Display remaining tries
+    while True:
+        try:
+            guess_input = input("Enter your guess: ")
+            guess = int(guess_input)
+            hint = game.make_guess(guess)
+            print(hint)
+            print(f"Remaining attempts: {game.game_config.max_tries}")  # Display remaining tries
 
-                if hint.startswith("Correct"):
-                    print(f"Congratulations! You won the game with {game.game_config.max_tries} attempts remaining.")
-                    break
-
-            except ValueError as ve:
-                print(f"Invalid input: {ve}")
-            except RuntimeError as re:
-                print(re)
-                print(f"The correct number was {game.game_config.target_number}.")
+            if hint.startswith("Correct"):
+                print(f"Congratulations! You won the game with {game.game_config.max_tries} attempts remaining.")
                 break
 
+        except ValueError:
+            print("Invalid input: Please enter a valid number.")
+        except RuntimeError as re:
+            print(re)
+            print(f"The correct number was {game.game_config.target_number}.")
+            break
+
+
+if __name__ == "__main__":
     while True:
         play_game()
         replay = input("Do you want to play again? (y/n): ").lower()
         if replay != 'y':
-            print("Thank you for playing! Goodbye.")
+            print("Thank you for playing 👾 Goodbye.")
             break
 
