@@ -20,7 +20,10 @@ class NumberGuessingGame:
     def __init__(self, difficulty: str) -> None:
         self._difficulty = str()
         self._user_guess = int()
+        self._number_pool = None
+        self._max_tries = None
         self.difficulty = difficulty
+        self._setup_game_rules()
         
     @property
     def difficulty(self) -> str:
@@ -41,6 +44,19 @@ class NumberGuessingGame:
         if not isinstance(value, int):
             raise ValueError("Guess must be an integer.")
         self._user_guess = value
+
+    @property
+    def number_pool(self) -> tuple:
+        return self._number_pool
+
+    def max_tries(self) -> int:
+        return self._max_tries
+
+    def _setup_game_rules(self):
+        """Configures the game settings / rules based on the difficulty selected."""
+        rules = self._CONFIG[self._difficulty]
+        self._number_pool = rules["number_pool"]
+        self._max_tries = rules["max_tries"]
 
     def make_guess(self, number: int):
         """
