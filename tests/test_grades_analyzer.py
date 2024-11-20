@@ -74,6 +74,6 @@ def sample_data():
     ])
 
 def test_analyzer_calculates_passing_rate(sample_data):
-    analyzer = Analzyer(sample_data)
+    analyzer = Analyzer(sample_data)
     assert analyzer.passing_rate() == 100 # it just so happens our sample returned students that all passed.
 
