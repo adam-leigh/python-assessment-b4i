@@ -3,13 +3,21 @@ from src.task2.number_game import NumberGuessingGame
 from typing import Any
 
 @pytest.fixture
-def game():
-    """Creates an instance of the NumberGuessingGame object for testing."""
+def easy_game():
     return NumberGuessingGame(difficulty="easy")
 
-def test_init(game):
+@pytest.fixture
+def medium_game():
+    return NumberGuessingGame(difficulty="medium")
+
+@pytest.fixture
+def hard_game():
+    return NumberGuessingGame(difficulty="hard")
+
+
+def test_init(easy_game):
     """Verified that game is instantiated and not a Nonetype."""
-    assert game is not None
+    assert easy_game is not None
 
 def test_instantiation_with_difficulty_parameter():
     VALID_OPTIONS: list[str] = ["easy", "medium", "hard"]
@@ -24,9 +32,9 @@ def test_instantiation_with_difficulty_parameter():
         with pytest.raises(ValueError):
             NumberGuessingGame(difficulty=invalid)
 
-def test_make_guess(game):
-    game.make_guess(42)
-    assert game.user_guess == 42
+def test_make_guess(easy_game):
+    easy_game.make_guess(42)
+    assert easy_game.user_guess == 42
 
 def test_difficulty_getter_and_setter():
     game = NumberGuessingGame(difficulty="easy")
