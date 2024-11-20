@@ -23,3 +23,7 @@ def test_instantiation_with_difficulty_parameter():
     for invalid in INVALID_OPTIONS:
         with pytest.raises(ValueError):
             NumberGuessingGame(difficulty=invalid)
+
+def test_make_guess(game):
+    game.make_guess(42)
+    assert game.user_guess == 42
