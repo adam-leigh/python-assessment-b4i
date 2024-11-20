@@ -2,6 +2,14 @@ from dataclasses import dataclass
 import random
 from typing import Tuple
 
+class InvalidGuessError(Exception):
+    """Exception raised for invalid guesses."""
+    pass
+
+class GameOverError(Exception):
+    """Exception raised when the game is over."""
+    pass
+
 @dataclass
 class GameConfig:
     difficulty: str
