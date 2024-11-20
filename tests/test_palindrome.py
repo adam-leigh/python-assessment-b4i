@@ -1,3 +1,4 @@
+import pytest
 from task3.palindrome import palindrome_checker
 
 def test_palindrome_checker_returns_true_for_radar():
@@ -29,6 +30,5 @@ def test_palindrome_checker_accounts_for_uppercase_palindromes():
 
 def test_palindrome_checker_raises_exception_if_argument_is_not_string():
     """Test that an exception is raised if the input is not a string."""
-    pass
-
-
+    with pytest.raises(TypeError, match="Input must be a string"):
+            palindrome_checker(626)
