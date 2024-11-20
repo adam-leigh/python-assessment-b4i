@@ -1,4 +1,13 @@
+from dataclasses import dataclass
 import random
+from typing import Tuple
+
+@dataclass
+class GameConfig:
+    difficulty: str
+    number_pool: Tuple[int, int]
+    max_tries: int
+    target_number: int = None # initialized once our game class is instantiated.
 
 class NumberGuessingGame:
 
@@ -18,12 +27,8 @@ class NumberGuessingGame:
             }
 
     def __init__(self, difficulty: str) -> None:
-        self._difficulty = str()
-        self._user_guess = int()
-        self._number_pool = None
-        self._max_tries = None
         self.difficulty = difficulty
-        self._setup_game_rules()
+        self.game_config = self._setup_game_rules()
         
     @property
     def difficulty(self) -> str:
@@ -35,31 +40,25 @@ class NumberGuessingGame:
             raise ValueError("Difficulty must be 'easy', 'medium' or 'hard'.")
         self._difficulty = value
     
-    @property
-    def user_guess(self) -> int:
-        return self._user_guess
 
-    @user_guess.setter
-    def user_guess(self, value: int) -> None:
-        if not isinstance(value, int):
-            raise ValueError("Guess must be an integer.")
-        self._user_guess = value
-
-    @property
-    def number_pool(self) -> tuple:
-        return self._number_pool
-
-    def max_tries(self) -> int:
-        return self._max_tries
-
-    def _setup_game_rules(self):
+    def _setup_game_rules(self) -> GameConfig:
         """Configures the game settings / rules based on the difficulty selected."""
         rules = self._CONFIG[self._difficulty]
-        self._number_pool = rules["number_pool"]
-        self._max_tries = rules["max_tries"]
+        return GameConfig(
+                difficulty=self.difficulty,
+                number_pool=rules["number_pool"],
+                max_tries=rules["max_tries"],
+                target_number=self._generate_target_number(rules["number_pool"]),
+                )
+
+    def _generate_target_number(self, number_pool: Tuple[int, int]) -> int:
+        """Generates a random number within the pool range."""
+        start, end = number_pool
+        return random.randint(start, end)
 
     def make_guess(self, number: int):
         """
-        Receives a number from the user and stores it in the user_guess attribute.
+        Receives a number from the user and compares it with the target number.
         """
-        self.user_guess = number
+        pass
+
