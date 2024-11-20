@@ -21,6 +21,7 @@ class Loader:
             data = json.load(file)
             return pd.DataFrame(data["grades"])
 
+
 class Analyzer:
     def __init__(self, data: pd.DataFrame) -> None:
         self.data = data
@@ -35,6 +36,14 @@ class Analyzer:
         if column_name not in self.data.columns:
             raise ValueError(f"Column {column_name} does not exist.")
         return self.data.sort_values(by=column_name, ascending=ascending)
+
+    def grade_statistics(self) -> dict[str, float]:
+        """Calculates the highest, lowest and average grades from the DataFrame."""
+        return {
+                "highest_grade": self.data["grade"].max(),
+                "lowest_grade": self.data["grade"].min(),
+                "average_grade": round(self.data["grade"].mean(), 2)
+                }
 
 if __name__ == "__main__":
     # df = Loader().load_data("./data/grades.json")
