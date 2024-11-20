@@ -128,7 +128,7 @@ def play_game():
     difficulty = get_valid_difficulty()
     game = NumberGuessingGame(difficulty=difficulty)
     print(f"Game started! Guess a number between {game.game_config.number_pool[0]} and {game.game_config.number_pool[1]}.")
-    print(f"You have {game.game_config.max_tries} attempts.")
+    print(f"You have {game.remaining_tries} attempts.")
 
     while True:
         try:
@@ -136,17 +136,17 @@ def play_game():
             guess = int(guess_input)
             hint = game.make_guess(guess)
             print(hint)
-            print(f"Remaining attempts: {game.game_config.max_tries}")  # Display remaining tries
+            print(f"Remaining attempts: {game.remaining_tries}")
 
             if hint.startswith("Correct"):
-                print(f"Congratulations! You won the game with {game.game_config.max_tries} attempts remaining.")
+                print(f"Congratulations! 🎉 You won the game with {game.game_config.max_tries} attempts remaining.")
                 break
 
-        except ValueError:
-            print("Invalid input: Please enter a valid number.")
-        except RuntimeError as re:
-            print(re)
-            print(f"The correct number was {game.game_config.target_number}.")
+        except InvalidGuessError as e:
+            print(f"Invalid input: {e}")
+        except GameOverError as e:
+            print(e)
+            print(f"The correct number was {game.target_number}.")
             break
 
 
