@@ -72,9 +72,9 @@ class NumberGuessingGame:
         """Configures the game settings / rules based on the difficulty selected."""
         return self._config_factory.create_config(self._difficulty)
 
-    def _generate_target_number(self, number_pool: Tuple[int, int]) -> int:
+    def _generate_target_number(self) -> int:
         """Generates a random number within the pool range."""
-        start, end = number_pool
+        start, end = self.game_config.number_pool
         return random.randint(start, end)
 
     def make_guess(self, number: int) -> str:
