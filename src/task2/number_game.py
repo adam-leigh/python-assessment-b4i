@@ -1,5 +1,21 @@
+import random
 
 class NumberGuessingGame:
+
+    _CONFIG = {
+            "easy": {
+                "number_pool": (1, 50), 
+                "max_tries": 25
+                },
+            "medium": {
+                "number_pool": (1, 100), 
+                "max_tries": 15
+                },
+            "hard": {
+                "number_pool": (1, 200), 
+                "max_tries": 100
+                },
+            }
 
     def __init__(self, difficulty: str) -> None:
         self._difficulty = str()
