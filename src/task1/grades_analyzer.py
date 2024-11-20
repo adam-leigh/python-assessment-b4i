@@ -30,6 +30,12 @@ class Analyzer:
         percentage = (len(passing_students) / len(self.data)) * 100
         return round(percentage, 2)
 
+    def sort_by_column(self, column_name: str, ascending=True):
+        """Sort the DataFrame by a specific column."""
+        if column_name not in self.data.columns:
+            raise ValueError(f"Column {column_name} does not exist.")
+        return self.data.sort_values(by=column_name, ascending=ascending)
+
 if __name__ == "__main__":
     # df = Loader().load_data("./data/grades.json")
     # df = Loader().load_data("./data/grades.csv")
