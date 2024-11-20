@@ -14,19 +14,6 @@ def medium_game():
 def hard_game():
     return NumberGuessingGame(difficulty="hard")
 
-
-# def test_game_rules_based_on_difficulty():
-#     CONFIG = {
-#         "easy": {"number_pool": (1, 50), "max_tries": 25},
-#         "medium": {"number_pool": (1, 100), "max_tries": 15},
-#         "hard": {"number_pool": (1, 200), "max_tries": 10},
-#     }
-#
-#     for difficulty, rules in CONFIG.items():
-#         game = NumberGuessingGame(difficulty=difficulty)
-#         assert game.game_config.number_pool == rules["number_pool"]
-#         assert game.game_config.max_tries == rules["max_tries"]
-
 def test_init(easy_game):
     """Verified that game is instantiated and not a Nonetype."""
     assert easy_game is not None
