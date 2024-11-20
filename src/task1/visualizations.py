@@ -2,67 +2,60 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from task1.grades_analyzer import Loader
+from task1.grades_analyzer import Analyzer, Loader
+
+import matplotlib.pyplot as plt
+
 
 class Visualizer:
-    def __init__(self, data: pd.DataFrame):
-        """Initialize the visualizer with student data."""
-        self._validate_data(data)
+    def __init__(self, data):
+        """Initialize the visualizer with any DataFrame."""
         self.data = data
 
-    def plot_grades(self):
-        """Plot a grouped bar chart for grades by subject."""
-        pivot_data = self._pivot_data()
-        x_positions = self._calculate_x_positions(pivot_data)
-        self._create_grouped_bar_chart(pivot_data, x_positions)
-        self._add_labels_and_legend(pivot_data.index, pivot_data.columns)
-        self._show_plot()
+    def plot(self, x_column, y_column, title, xlabel=None, ylabel=None, rotation=45):
+        """
+        Plot a bar chart from the DataFrame.
+        """
+        if x_column not in self.data.columns or y_column not in self.data.columns:
+            raise ValueError(f"DataFrame must contain '{x_column}' and '{y_column}' columns")
 
-    def _validate_data(self, data):
-        """Check if the data has the right columns."""
-        required_columns = {'student_id', 'subject', 'grade'}
-        if not required_columns.issubset(data.columns):
-            raise ValueError("DataFrame must contain 'student_id', 'subject', and 'grade' columns")
-
-    def _pivot_data(self):
-        """Pivot the data so each student ID has grades for all subjects."""
-        return self.data.pivot(index="student_id", columns="subject", values="grade")
-
-    def _calculate_x_positions(self, pivot_data):
-        """Figure out where to place each bar for students."""
-        num_students = len(pivot_data.index)
-        return np.arange(num_students)
-
-    def _create_grouped_bar_chart(self, pivot_data, x_positions):
-        """Draw the grouped bar chart for all grades."""
-        bar_width = 0.2
-        subjects = pivot_data.columns
-        offsets = np.arange(len(subjects)) * bar_width - (len(subjects) - 1) * bar_width / 2
-
-        for i, subject in enumerate(subjects):
-            plt.bar(
-                x_positions + offsets[i],
-                pivot_data[subject],
-                width=bar_width,
-                label=subject,
-            )
-
-    def _add_labels_and_legend(self, student_ids, subjects):
-        """Add labels, ticks, and the legend to the plot."""
-        plt.title("Student Grades by Subject")
-        plt.xlabel("Student ID")
-        plt.ylabel("Grade")
-        plt.xticks(ticks=range(len(student_ids)), labels=student_ids, rotation=45)
-        plt.legend(title="Subject")
-
-    def _show_plot(self):
-        """Render the plot and tighten the layout."""
+        plt.figure(figsize=(10, 6))
+        plt.bar(self.data[x_column], self.data[y_column], color="skyblue")
+        plt.title(title)
+        plt.xlabel(xlabel if xlabel else x_column)
+        plt.ylabel(ylabel if ylabel else y_column)
+        plt.xticks(rotation=rotation)
         plt.tight_layout()
         plt.show()
+
 
 if __name__ == "__main__":
 
     df = Loader().load_data("./data/grades.xlsx")
-    print(len(df))
-    visualizations = Visualizer(df)
-    visualizations.plot_grades()
+    analyzer = Analyzer(df)
+    student_stats = analyzer.per_student_statistics()
+
+    print(student_stats)
+
+    visualizer = Visualizer(student_stats)
+
+    visualizer.plot(
+        x_column="student_id",        
+        y_column="average_grade",    
+        title="Average Grade Per Student",
+        xlabel="Student ID",        
+        ylabel="Average Grade"     
+    )
+
+    subject_stats = analyzer.per_subject_statistics()
+    print(subject_stats)
+
+    visualizer = Visualizer(subject_stats)
+
+    visualizer.plot(
+        x_column="subject",         # The x-axis will show the subject names
+        y_column="average_grade",   # The y-axis will show the average grades
+        title="Average Grade Per Subject",
+        xlabel="Subject",
+        ylabel="Average Grade"
+)
