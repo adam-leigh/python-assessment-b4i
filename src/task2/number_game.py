@@ -56,9 +56,31 @@ class NumberGuessingGame:
         start, end = number_pool
         return random.randint(start, end)
 
-    def make_guess(self, number: int):
+    def make_guess(self, number: int) -> str:
         """
-        Receives a number from the user and compares it with the target number.
+        Receives a number from the user, compares it with the target number,
+        decrements the number of tries, and provides hints or triggers game-over.
         """
-        pass
+        if not isinstance(number, int):
+            raise ValueError("Guess must be an integer.")
+
+        if number < self.game_config.number_pool[0] or number > self.game_config.number_pool[1]:
+            raise ValueError(
+                f"Guess must be between {self.game_config.number_pool[0]} and {self.game_config.number_pool[1]}."
+            )
+
+        if self.game_config.max_tries <= 0:
+            raise RuntimeError("Game Over!")
+
+        self.game_config.max_tries -= 1
+
+        if self.game_config.max_tries == 0 and number != self.game_config.target_number:
+            raise RuntimeError("Game Over!")
+
+        if number == self.game_config.target_number:
+            return "Correct!"
+        elif number < self.game_config.target_number:
+            return "Higher"
+        else:
+            return "Lower"
 
