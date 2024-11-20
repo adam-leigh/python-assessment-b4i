@@ -22,7 +22,7 @@ class NumberGuessingGame:
                 },
             "hard": {
                 "number_pool": (1, 200), 
-                "max_tries": 100
+                "max_tries": 10
                 },
             }
 
@@ -83,4 +83,46 @@ class NumberGuessingGame:
             return "Higher"
         else:
             return "Lower"
+
+def get_valid_difficulty() -> str:
+    while True:
+        difficulty = input("Choose difficulty (easy, medium, hard): ").lower()
+        if difficulty in ["easy", "medium", "hard"]:
+            return difficulty
+        else:
+            print("Invalid difficulty. Please choose 'easy', 'medium', or 'hard'.")
+
+if __name__ == "__main__":
+
+    def play_game():
+        difficulty: str = get_valid_difficulty()
+        game = NumberGuessingGame(difficulty=difficulty)
+        print(f"Game started! Guess a number between {game.game_config.number_pool[0]} and {game.game_config.number_pool[1]}.")
+        print(f"You have {game.game_config.max_tries} attempts.")
+
+        while True:
+            try:
+                guess_input = input("Enter your guess: ")
+                guess = int(guess_input)
+                hint = game.make_guess(guess)
+                print(hint)
+                print(f"Remaining attempts: {game.game_config.max_tries}")  # Display remaining tries
+
+                if hint.startswith("Correct"):
+                    print(f"Congratulations! You won the game with {game.game_config.max_tries} attempts remaining.")
+                    break
+
+            except ValueError as ve:
+                print(f"Invalid input: {ve}")
+            except RuntimeError as re:
+                print(re)
+                print(f"The correct number was {game.game_config.target_number}.")
+                break
+
+    while True:
+        play_game()
+        replay = input("Do you want to play again? (y/n): ").lower()
+        if replay != 'y':
+            print("Thank you for playing! Goodbye.")
+            break
 
