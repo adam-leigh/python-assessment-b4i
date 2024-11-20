@@ -79,9 +79,9 @@ def test_analyzer_can_sort_dataframe(sample_data):
     assert sorted_df.iloc[0]["grade"] == 67 # Lowest grade in our sample data
     assert sorted_df.iloc[-1]["grade"] == 92
 
-def test_analyzer_calculates_grade_statistics(sample_data):
+def test_analyzer_calculates_statistics(sample_data):
     analyzer = Analyzer(sample_data)
-    stats = analyzer.grade_statistics()
+    stats = analyzer.overall_statistics()
     expected_average = sum([85, 85, 88, 92, 67]) / 5 # I manually wrote this out based on our sample data.
     assert stats["highest_grade"] == 92
     assert stats["lowest_grade"] == 67
