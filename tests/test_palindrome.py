@@ -30,5 +30,11 @@ def test_palindrome_checker_accounts_for_uppercase_palindromes():
 
 def test_palindrome_checker_raises_exception_if_argument_is_not_string():
     """Test that an exception is raised if the input is not a string."""
-    with pytest.raises(TypeError, match="Input must be a string"):
+    with pytest.raises(ValueError, match="Input must be a string containing only alphabetic characters"):
             palindrome_checker(626)
+
+def test_palindrome_checker_raises_exception_if_argument_is_a_string_of_digits():
+    """Test that an exception is raised if the input is indeed a string, but a string containing only digits."""
+    with pytest.raises(ValueError, match="Input must be a string containing only alphabetic characters"):
+            palindrome_checker("626")
+
