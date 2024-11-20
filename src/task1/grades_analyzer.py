@@ -21,6 +21,14 @@ class Loader:
             data = json.load(file)
             return pd.DataFrame(data["grades"])
 
+class Analyzer:
+    def __init__(self, data: pd.DataFrame) -> None:
+        self.data = data
+
+    def passing_rate(self, pass_mark=60):
+        passing_students = self.data[self.data["grade"] >= pass_mark]
+        percentage = (len(passing_students) / len(self.data)) * 100
+        return round(percentage, 2)
 
 if __name__ == "__main__":
     # df = Loader().load_data("./data/grades.json")
