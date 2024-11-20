@@ -77,3 +77,8 @@ def test_analyzer_calculates_passing_rate(sample_data):
     analyzer = Analyzer(sample_data)
     assert analyzer.passing_rate() == 100 # it just so happens our sample returned students that all passed.
 
+def test_analyzer_can_sort_dataframe(sample_data):
+    analyzer = Analyzer(sample_data)
+    sorted_df = analyzer.sort_by_column("grade")
+    assert sorted_df.iloc[0]["grade"] == 67 # Lowest grade in our sample data
+    assert sorted_df.iloc[-1]["grade"] == 92
