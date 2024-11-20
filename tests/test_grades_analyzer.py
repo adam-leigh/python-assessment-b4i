@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from grades_analyzer import Loader
+from task1.grades_analyzer import Loader
 
 @pytest.fixture
 def csv_file():
