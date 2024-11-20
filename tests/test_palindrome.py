@@ -1,40 +1,43 @@
 import pytest
-from task3.palindrome import palindrome_checker
+from task3 import palindrome
+from task3.palindrome import PalindromeChecker
 
-def test_palindrome_checker_returns_true_for_radar():
-    """Test that the function returns True for a palindrome string."""
-    result: bool = palindrome_checker("radar")
-    assert result
 
-def test_palindrome_checker_returns_true_for_valid_palindromes():
-    """Test that the function returns True for a palindrome string."""
-    result: bool = palindrome_checker("civic")
-    assert result
+@pytest.fixture
+def palindrome_checker():
+    """Fixture to instantiate PalindromeChecker."""
+    return PalindromeChecker()
 
-    result: bool = palindrome_checker("racecar")
-    assert result
 
-    result: bool = palindrome_checker("dad")
-    assert result
+def test_palindrome_checker_with_palindrome(palindrome_checker):
+    """Test that palindrome_checker returns True for palindrome strings."""
+    PALINDROMES = ["radar", "civic", "racecar", "dad", "madam", "stats", "Civic"]
+    for word in PALINDROMES:
+        assert palindrome_checker.is_palindrome(word)
 
-    result: bool = palindrome_checker("madam")
-    assert result
 
-    result: bool = palindrome_checker("stats")
-    assert result
+def test_palindrome_checker_returns_false_for_non_palindromes(palindrome_checker):
+    """Test that palindrome_checker returns True for palindrome strings."""
+    NON_PALINDROMES = ["Sarah", "Homecell", "Adam", "Thembani"]
+    for word in NON_PALINDROMES:
+        assert not palindrome_checker.is_palindrome(word) # Essentially saying 'assert that these all return False'
 
-def test_palindrome_checker_accounts_for_uppercase_palindromes():
-    """Test that the function returns True for uppercase palindrome strings."""
-    result: bool = palindrome_checker("Civic")
-    assert result
 
-def test_palindrome_checker_raises_exception_if_argument_is_not_string():
-    """Test that an exception is raised if the input is not a string."""
-    with pytest.raises(ValueError, match="Input must be a string containing only alphabetic characters"):
-            palindrome_checker(626)
+def test_palindrome_checker_with_uppercase_palindrome(palindrome_checker):
+    """Test that PalindromeChecker.is_palindrome accounts for uppercase strings."""
+    assert palindrome_checker.is_palindrome("Racecar")
+    assert palindrome_checker.is_palindrome("Civic")
 
-def test_palindrome_checker_raises_exception_if_argument_is_a_string_of_digits():
-    """Test that an exception is raised if the input is indeed a string, but a string containing only digits."""
-    with pytest.raises(ValueError, match="Input must be a string containing only alphabetic characters"):
-            palindrome_checker("626")
 
+def test_palindrome_checker_invalid_input_types(palindrome_checker):
+    """Test that palindrome_checker raises ValueError for invalid input types."""
+    invalid_inputs = [626, 123.321, None, "626"]
+    for val in invalid_inputs:
+        with pytest.raises(ValueError, match="Input must be a string containing only alphabetic characters"):
+            palindrome_checker.is_palindrome(val)
+
+
+def test_palindrome_checker_empty_string(palindrome_checker):
+    """Test that palindrome_checker raises ValueError for empty strings."""
+    with pytest.raises(ValueError, match="Input must contain only alphabetic characters"):
+        palindrome_checker.is_palindrome("")

@@ -1,9 +1,9 @@
 class PalindromeChecker:
     """Class to check if a given string is a palindrome."""
 
-    def palindrome_checker(self, input_string: str) -> bool:
+    def is_palindrome(self, input_string: str) -> bool:
         """Expects a string as input, then evaluates whether or not that string is a palindrome."""
-        if not (isinstance(input_string, str) and input_string.isalpha()):
+        if not (isinstance(input_string, str) and input_string.isalpha()) and len(input_string) < 3:
             raise ValueError("Input must be a string containing only alphabetic characters")
         uniform_string: str = input_string.lower()
         return uniform_string == uniform_string[::-1]
