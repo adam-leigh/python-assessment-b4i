@@ -39,8 +39,8 @@ curl -sSL <https://install.python-poetry.org> | python3
 1. Clone and set up:
 
 ```bash
-git clone <https://github.com/yourusername/yourrepository.git>
-cd yourrepository
+git clone <https://github.com/adam-leigh/python-assessment-b4i.git>
+cd python-assessment-b4i
 poetry install
 poetry shell
 ```
