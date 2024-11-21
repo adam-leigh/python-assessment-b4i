@@ -1,163 +1,212 @@
-# README.md - B4i Python Assessment
+# The Python Assessment for B4i
 
-## **Background**
-This project serves as a test of my abilities with the Python programming language. The assessment, provided by the team at the B4I Project, consists of two tasks designed to evaluate my technical skills and coding abilities.
+## Overview
 
-## **Requirements**
+This project serves as a test of my abilities with the Python programming language. The assessment consists of two tasks:
 
-### **Task 1: Grades Data Analysis**
+1. **Data Analysis Project**
+    
+    This task involves analyzing a sample CSV file containing a list of grades for five students across separate subjects. The specifics of this task include:
+    
+    - Loading the CSV file (and optionally other file types containing the same data).
+    - Calculating the average grade per student.
+    - Identifying the highest and lowest grade per student.
+    - Determining the number of passing students per subject.
 
-**Must-Haves**:
+2. **Number Guessing Game**
+    
+    This second task involves creating a number guessing game with different difficulty levels. The game requirements include:
+    
+    - Allowing guesses from a predefined pool of numbers based on the selected difficulty.
+    - Displaying hints after each guess, indicating whether the next guess should be higher or lower.
 
-•	A Python script must load a CSV file named grades.csv containing three columns: student ID, subject, and grade.
+## Setup Instructions
 
-•	The script must calculate the following:
+This project uses Poetry for dependency management, but a `requirements.txt` is also provided for convenience.
 
-•	Average grade per student.
+## Quick Start with Poetry (Recommended)
 
-•	Highest and lowest grade per subject.
+1. Install Poetry:
 
-•	Number of passing students per subject.
+```bash
+# Windows (PowerShell)
+(Invoke-WebRequest -Uri <https://install.python-poetry.org> -UseBasicParsing).Content | python -
 
-•	Results must be sortable by criteria such as average grade or subject.
+# macOS/Linux
+curl -sSL <https://install.python-poetry.org> | python3
+```
 
-•	Exception handling must cover:
+1. Clone and set up:
 
-•	Missing or nonexistent files.
+```bash
+git clone <https://github.com/yourusername/yourrepository.git>
+cd yourrepository
+poetry install
+poetry shell
+```
 
-•	Invalid file formats.
+## Alternative Setup with pip
 
-**Nice-to-Haves**:
+If you prefer using traditional virtual environments:
 
-•	Support for additional input formats, such as JSON and Excel.
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+pip install -r requirements.txt
+```
 
-•	Data visualization using Matplotlib or a similar library.
+Note: The `requirements.txt` was generated using:
 
-•	Unit tests for key functions.
+```bash
+poetry export -f requirements.txt --without-hashes > requirements.txt
 
-•	Handling variations in schemas for JSON or Excel files.
+```
 
-### **Task 2: Number Guessing Game**
+## Usage Examples
+### File Structure
 
-**Must-Haves**:
+The project is organized as follows:
 
-•	A class-based implementation of a number guessing game.
+```
+.
 
-•	The game must support three difficulty levels:
+├── README.md
 
-•	**Easy**: Numbers range from 1 to 50.
+├── data
 
-•	**Medium**: Numbers range from 1 to 100.
+│   ├── grades.csv
 
-•	**Hard**: Numbers range from 1 to 200.
+│   ├── grades.json
 
-•	A randomly generated target number must be created for the chosen difficulty.
+│   └── grades.xlsx
 
-•	The range of numbers is determined dynamically based on the selected difficulty.
+├── poetry.lock
 
-•	The game must run in a loop, allowing the user to make guesses, and provide feedback to the console after each guess:
+├── pyproject.toml
 
-•	“Higher” if the guess is too low.
+├── requirements.txt
 
-•	“Lower” if the guess is too high.
+├── src
 
-•	A variable to track the number of attempts used.
+│   ├── task1
 
-•	A maximum number of attempts per difficulty level.
+│   │   ├── __init__.py
 
-•	As difficulty increases, the maximum number of guesses decreases.
+│   │   ├── grades_analyzer.py
 
-•	The game must end when the user either guesses correctly or runs out of attempts.
+│   │   └── visualizations.py
 
-•	A scoring system that evaluates performance based on the number of guesses used, and prints the score to the console upon successful completion.
+│   ├── task2
 
-**Nice-to-Haves**:
+│   │   ├── __init__.py
 
-•	A leaderboard feature that persists between game sessions to store and display high scores.
+│   │   └── number_game.py
 
-•	Additional game modes (specific modes not yet defined).
+│   └── task3
 
-•	Comprehensive error handling using try-except blocks or unit tests.
+│       ├── __init__.py
 
-## **Method**
+│       └── palindrome.py
 
-### **Task 1: Grades Data Analysis**
+└── tests
 
-**Overview**:
-The implementation for Task 1 will focus on loading and processing grades data using a class-based approach where appropriate, while leveraging standalone functions for specific calculations or visualizations. The architecture aligns with the single responsibility principle, ensuring clear separation of data loading, processing, and visualization.
+├── test_grades_analyzer.py
 
-**Key Components**:
+├── test_number_game.py
 
-1.	**Tests**:
+├── test_palindrome.py
 
-•	The development process will start with writing unit tests in a file named testGradeAnalyzer.py, located in the tests folder.
+└── test_visualizations.py
+```
 
-•	The tests will validate the functionality of the DataLoader and DataVisualizer classes and the standalone functions responsible for calculations.
+### Running the Project
 
-2.	**Classes**:
+Each task can be executed directly using the `if __name__ == "__main__"` block in their respective files.
 
-•	**DataLoader Class**:
+#### Task 1: Grades Analysis
 
-•	Responsible for loading data from files located in the data folder.
+Run the `grades_analyzer.py` or `visualizations.py` scripts to analyze grades or visualize the data:
 
-•	Accepts the file path as input to its constructor.
+```bash
 
-•	Validates the file format using the endswith method to ensure only CSV, JSON, or Excel files are processed.
+python3 src/task1/grades_analyzer.py
 
-•	Rejects improper file types with an appropriate error message.
+python3 src/task1/visualizations.py
 
-•	Loads the valid file into a Pandas DataFrame for further processing.
+python3 src/task2/number_game.py
 
-•	Handles missing or invalid files through exception handling.
+python3 src/task3/palindrome.py "Racecar"
 
-•	**DataVisualizer Class**:
+```
 
-•	Accepts a Pandas DataFrame as input to its constructor.
 
-•	Provides methods to visualize the statistics calculated by other components (e.g., average grades, highest and lowest grades per subject).
+## Design Decisions
 
-•	Leverages Matplotlib for creating graphs or charts if visualization is required.
+### Task 1: Data Analysis Project
 
-3.	**Functions**:
+For Task 1, I decided to break the project into three Python classes:
 
-•	**calculate_statistics(data: pd.DataFrame)**:
+1. **Loader Class**
+    
+    This class dynamically loads the grades data from the directory, whether it's in CSV, JSON, or Excel format. It returns a Pandas DataFrame in all cases. I chose Pandas because, in my opinion, it’s the best library for handling large datasets and performing statistical analysis quickly and easily.
+    
+2. **Analyzer Class**
+    
+    This class requires a Pandas DataFrame when you create an instance. You can either pass it a DataFrame directly or use the output from the Loader class. This design makes it flexible and lets the Analyzer immediately provide the statistical analysis we want based on the data.
+    
+3. **Visualizer Class**
+    
+    The Visualizer class also takes a Pandas DataFrame when it’s instantiated. Since many of the Analyzer methods return DataFrames, it’s easy to pass those directly into the Visualizer. As long as the DataFrame has the expected columns, the Visualizer works seamlessly, and we can add more functionality to it over time.
+    
 
-•	Computes the required metrics:
+This setup keeps the project modular:
 
-•	Average grade per student.
+- The Loader handles loading the data.
+- The Analyzer handles the calculations.
+- The Visualizer handles how the data is presented.
 
-•	Highest and lowest grade for each subject.
+This structure makes the code more flexible and easier to extend in the future.
 
-•	Number of passing students per subject.
+### Task 2: Number Guessing Game
 
-•	Returns these metrics as a dictionary or a DataFrame for further use.
+For the number guessing game, I did my best to structure the code in a way that allows for future development and makes the project easier to build upon. This was especially important during the final stages when I refactored the code.
 
-•	**sort_results(data: pd.DataFrame, criteria: str)**:
+Because the game depends on the selected difficulty level, and because you might want to modify what “easy,” “medium,” or “hard” means in terms of game settings, I created an immutable dataclass for `GameConfig`. This ensures that once the game rules are set, they can’t be changed during runtime.
 
-•	Sorts the processed data based on user-specified criteria (e.g., average grade or subject).
+To handle the setup for `GameConfig`, I nested everything required into `GameConfigFactory`. This was my best attempt at implementing the factory design pattern. My aim was to prioritize the separation of concerns principle by untangling the game settings from the `NumberGuessingGame` itself.
 
-•	Additional utility functions may include format validation or data cleaning.
+Additionally, the `play_game` function is a standalone function and not part of the game class. This was intentional, as I wanted to keep the logic for running the game separate from the game settings and configuration.
 
-**Libraries Used**:
+To improve the readability of the code and make errors more specific to the game, I also created two custom exceptions:
 
-•	**Pandas** for loading and manipulating tabular data.
+- `InvalidGuessError` for handling invalid guesses.
+- `GameOverError` for when the player runs out of attempts.
 
-•	**Matplotlib** for optional data visualization.
+Overall, the design ensures that the game is modular, flexible, and easy to maintain or expand in the future.
 
-•	**Pytest** for unit testing.
+## Known Limitations
+### Task 1: Data Analysis Project
 
-**Flow**:
+1. **Loader Object**
+    
+    The loader is currently limited to working only if the file contains the following columns: `student ID`, `subject`, and `grade`. If these columns are missing, the loader will fail.
+    
+2. **Analyzer Object**
+    
+    The analyzer could be improved by separating the individual statistics calculations (e.g., highest grade, lowest grade, average grade, passing students, and passing rate) into their own methods. This would enhance the separation of concerns and make the code easier to maintain and extend.
+    
+3. **Visualizer Object**
+    
+    The visualizer is designed to work almost exclusively with the output of two specific methods from the analyzer. This restricts its usability and flexibility, making it less dynamic and less adaptable for broader use cases.
+    
 
-1.	DataLoader reads and validates the file, outputting a Pandas DataFrame.
+### Task 2: Number Guessing Game
 
-2.	The DataFrame is passed to standalone functions like calculate_statistics for analysis.
-
-3.	Results are optionally passed to DataVisualizer for graphical representation.
-
-### **Task 2: Number Guessing Game**
-
-**Overview**:
-
-I’m less sure of how exactly I’m going to tackle task 2, so I’ll begin with writing tests for the core NumberGuessingGame class and build upon it from there. If I get a chance to refactor the project, I may design NumberGuessingGame as a dataclass and incorporate pydantic into the project. The class will encapsulate the core game logic, as well as the validating and rejecting invalid user input. I will start with tests that reject invalid input when initializing our class, accepting only the strings “easy”, “medium” or “hard”.
-
-The game will be implemented as a CLI program, allowing players to input guesses through the terminal.
+1. **Leaderboard Feature**
+    
+    The leaderboard feature was planned but never implemented due to time constraints.
+    
+2. **Terminal-Based Design**
+    
+    The game currently runs in the terminal, and its design is not future-proof. Significant refactoring would be required to adapt it for a front-end interface, such as a web-based application.
+    
